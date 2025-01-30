@@ -10,14 +10,23 @@ public class Lubot {
         + "        \\/         \\/             \n";
 
         String horizontalBar = "____________________________________________\n";
+<<<<<<< HEAD
         String[] list = new String[100];
         int n = 0; // list index
+=======
+        Task[] list = new Task[100];
+        int n = 0; // task list index
+>>>>>>> 09e853e (added task.java)
 
         // start
         System.out.println(logo);
         System.out.println("lubot: greetings master, how can i be of service today?");
         System.out.println("lubot: type 'list' to see list");
         System.out.println("lubot: type 'exit' to exit");
+<<<<<<< HEAD
+=======
+        System.out.println("lubot: type 'mark <int>' to mark a task");
+>>>>>>> 09e853e (added task.java)
         System.out.println(horizontalBar);
 
         // main
@@ -27,25 +36,77 @@ public class Lubot {
             System.out.print("You: ");
             String userInput = scanner.nextLine();
 
+<<<<<<< HEAD
             // check if users wants to exit
+=======
+            // exit
+>>>>>>> 09e853e (added task.java)
             if (userInput.equalsIgnoreCase("exit")) {
                 break;
             }
 
+<<<<<<< HEAD
             // check if users wants to see list
             if (userInput.equalsIgnoreCase("list")) {
                 System.out.println("lubot:");
                 for (int i=0; i<n; i++) {
                     System.out.println("  - " + list[i]);
+=======
+            // see list
+            if (userInput.equalsIgnoreCase("list")) {
+                System.out.println("lubot:");
+                for (int i=0; i<n; i++) {
+                    System.out.println(String.format("  %d: %s", i+1, list[i]));
+                }
+                System.out.println(horizontalBar);
+                continue;
+            }
+
+            // mark task
+            if (userInput.toLowerCase().startsWith("mark") && !userInput.equalsIgnoreCase("mark")) {
+                // check if second argument is int
+                int number = Integer.parseInt(userInput.split(" ")[1]) - 1;
+
+                // check number
+                if (number < 0 || number > n-1) {
+                    System.out.println("lubot: invalid task no, pls enter a number from 1 to " + n);
+                } else {
+                    list[number] = list[number].markDone();
+                    System.out.println("lubot: ive marked the following task a done!");
+                    System.out.println(String.format("  %d: %s", number+1, list[number]));
+                }
+                System.out.println(horizontalBar);
+                continue;
+            }
+
+            // unmark task
+            if (userInput.toLowerCase().startsWith("unmark") && !userInput.equalsIgnoreCase("unmark")) {
+                // check if second argument is int
+                int number = Integer.parseInt(userInput.split(" ")[1]) - 1;
+
+                // check number
+                if (number < 0 || number > n-1) {
+                    System.out.println("lubot: invalid task no, pls enter a number from 1 to " + n);
+                } else {
+                    list[number] = list[number].markUndone();
+                    System.out.println("lubot: ive marked the following task as undone!");
+                    System.out.println(String.format("  %d: %s", number+1, list[number]));
+>>>>>>> 09e853e (added task.java)
                 }
                 System.out.println(horizontalBar);
                 continue;
             }
 
             // response
+<<<<<<< HEAD
             list[n] = userInput;
             n++;
             System.out.println("lubot: added '" + userInput + "'");
+=======
+            list[n] = new Task(userInput);
+            n++;
+            System.out.println("lubot: added '" + list[n-1] + "'");
+>>>>>>> 09e853e (added task.java)
             System.out.println(horizontalBar);
         }
 
