@@ -1,0 +1,11 @@
+todo borrow book
+deadline return book /by Sunday
+event collect angpao /from wed /to thu
+list
+mark 1
+mark 3
+mark 4
+list
+unmark 1
+list
+exit
