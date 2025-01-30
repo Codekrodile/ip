@@ -19,6 +19,9 @@ public class Lubot {
         System.out.println("lubot: type 'list' to see list");
         System.out.println("lubot: type 'exit' to exit");
         System.out.println("lubot: type 'mark <int>' to mark a task");
+        System.out.println("lubot: type 'todo' to add a todo");
+        System.out.println("lubot: type 'deadline /by <date>' to add a deadline");
+        System.out.println("lubot: type 'event /from <date> /to <date>' to add an event");
         System.out.println(horizontalBar);
 
         // main
@@ -52,7 +55,7 @@ public class Lubot {
                 if (number < 0 || number > n-1) {
                     System.out.println("lubot: invalid task no, pls enter a number from 1 to " + n);
                 } else {
-                    list[number] = list[number].markDone();
+                    list[number].markDone();
                     System.out.println("lubot: ive marked the following task a done!");
                     System.out.println(String.format("  %d: %s", number+1, list[number]));
                 }
@@ -69,7 +72,7 @@ public class Lubot {
                 if (number < 0 || number > n-1) {
                     System.out.println("lubot: invalid task no, pls enter a number from 1 to " + n);
                 } else {
-                    list[number] = list[number].markUndone();
+                    list[number].markUndone();
                     System.out.println("lubot: ive marked the following task as undone!");
                     System.out.println(String.format("  %d: %s", number+1, list[number]));
                 }
@@ -78,9 +81,49 @@ public class Lubot {
             }
 
             // response
-            list[n] = new Task(userInput);
-            n++;
-            System.out.println("lubot: added '" + list[n-1] + "'");
+            if (userInput.toLowerCase().startsWith("todo")) {
+                // format input
+                String[] userInputs = userInput.split(" ", 2);
+
+                list[n] = new Todo(userInputs[1]);
+                n++;
+
+                System.out.println("lubot: added a todo!");
+                System.out.println(String.format("  %s", list[n-1]));
+                System.out.println(horizontalBar);
+                continue;
+            }
+
+            if (userInput.toLowerCase().startsWith("deadline")) {
+                // format input
+                String[] temp = userInput.split(" ", 2);
+                String[] userInputs = temp[1].split("/by", 2);
+
+                list[n] = new Deadline(userInputs[0], userInputs[1]);
+                n++;
+
+                System.out.println("lubot: added a deadline!");
+                System.out.println(String.format("  %s", list[n-1]));
+                System.out.println(horizontalBar);
+                continue;
+            }
+
+            if (userInput.toLowerCase().startsWith("event")) {
+                // format input
+                String[] temp = userInput.split(" ", 2);
+                String[] userInputs = temp[1].split("/from | /to", 3);
+
+                list[n] = new Event(userInputs[0], userInputs[1], userInputs[2]);
+                n++;
+
+                System.out.println("lubot: added a event!");
+                System.out.println(String.format("  %s", list[n-1]));
+                System.out.println(horizontalBar);
+                continue;
+            }
+
+            // invalid input
+            System.out.println("lubot: invalid input");
             System.out.println(horizontalBar);
         }
 
