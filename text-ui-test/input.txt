@@ -12,4 +12,7 @@ mark 4
 list
 unmark 1
 list
+delete 2
+delete 5
+list
 exit

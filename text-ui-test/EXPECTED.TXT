@@ -9,6 +9,7 @@ lubot: greetings master, how can i be of service today?
 lubot: type 'list' to see list
 lubot: type 'exit' to exit
 lubot: type 'mark <int>' to mark a task
+lubot: type 'delete <int>' to delete a task
 lubot: type 'todo' to add a todo
 lubot: type 'deadline /by <date>' to add a deadline
 lubot: type 'event /from <date> /to <date>' to add an event
@@ -72,6 +73,18 @@ You: lubot:
   1: [T][ ] borrow book
   2: [D][ ] return book  (by:  Sunday)
   3: [E][x] collect angpao  (from: wed to:  thu)
+____________________________________________
+
+You: lubot: ive delete the following task!
+  2: [D][ ] return book  (by:  Sunday)
+____________________________________________
+
+You: lubot: invalid task no, pls enter a number from 1 to 2
+____________________________________________
+
+You: lubot:
+  1: [T][ ] borrow book
+  2: [E][x] collect angpao  (from: wed to:  thu)
 ____________________________________________
 
 You: lubot: pls come again
