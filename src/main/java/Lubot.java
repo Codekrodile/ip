@@ -136,6 +136,11 @@ public class Lubot {
 		}
 
 		if (temp[0].equalsIgnoreCase("event")){
+			if (temp[1].indexOf(" /from ") > temp[1].indexOf(" /to ")) {
+				System.out.println("lubot: invalid input, event <desc> /from <date> /to <date>");
+				return;
+			}
+
 			// format input
 			String[] userInputs = temp[1].split("/from | /to", 3);
 

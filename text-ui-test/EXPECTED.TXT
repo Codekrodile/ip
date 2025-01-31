@@ -22,7 +22,7 @@ You: lubot: added a deadline!
   [D][ ] return book  (by:  Sunday)
 ____________________________________________
 
-You: lubot: added a event!
+You: lubot: added an event!
   [E][ ] collect angpao  (from: wed to:  thu)
 ____________________________________________
 
@@ -32,11 +32,26 @@ You: lubot:
   3: [E][ ] collect angpao  (from: wed to:  thu)
 ____________________________________________
 
-You: lubot: ive marked the following task a done!
+You: lubot: invalid input
+____________________________________________
+
+You: lubot: invalid input, deadline <desc> /by <date>
+____________________________________________
+
+You: lubot: invalid input, event <desc> /from <date> /to <date>
+____________________________________________
+
+You: lubot:
+  1: [T][ ] borrow book
+  2: [D][ ] return book  (by:  Sunday)
+  3: [E][ ] collect angpao  (from: wed to:  thu)
+____________________________________________
+
+You: lubot: ive marked the following task!
   1: [T][x] borrow book
 ____________________________________________
 
-You: lubot: ive marked the following task a done!
+You: lubot: ive marked the following task!
   3: [E][x] collect angpao  (from: wed to:  thu)
 ____________________________________________
 
@@ -49,7 +64,7 @@ You: lubot:
   3: [E][x] collect angpao  (from: wed to:  thu)
 ____________________________________________
 
-You: lubot: ive marked the following task as undone!
+You: lubot: ive unmarked the following task!
   1: [T][ ] borrow book
 ____________________________________________
 

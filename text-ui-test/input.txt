@@ -2,6 +2,10 @@ todo borrow book
 deadline return book /by Sunday
 event collect angpao /from wed /to thu
 list
+todo
+deadline cs2103t assignment
+event performance /to fri /from fri
+list
 mark 1
 mark 3
 mark 4
