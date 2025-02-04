@@ -3,6 +3,18 @@ public class Todo extends Task{
         super(description);
     }
 
+    private Todo(Task t) {
+        super(t);
+    }
+
+    public Todo markDone() {
+        return new Todo(super.markDone());
+    }
+
+    public Todo markUndone() {
+        return new Todo(super.markUndone());
+    }
+
     public String toString() {
         return String.format("[T]%s", super.toString());
     }

@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Lubot {
-	private static ArrayList<Task> list = new ArrayList<>();
+	private static ArrayList<Task> tasks = new ArrayList<>();
 	private static int n = 0;
 
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class Lubot {
         // start
         System.out.println(logo);
         System.out.println("lubot: greetings master, how can i be of service today?");
-        System.out.println("lubot: type 'list' to see list");
+        System.out.println("lubot: type 'tasks' to see tasks");
         System.out.println("lubot: type 'exit' to exit");
         System.out.println("lubot: type 'mark <int>' to mark a task");
         System.out.println("lubot: type 'delete <int>' to delete a task");
@@ -39,11 +39,11 @@ public class Lubot {
                 break;
             }
 
-            // see list
-            if (userInput.equalsIgnoreCase("list")) {
+            // see tasks
+            if (userInput.equalsIgnoreCase("tasks")) {
                 System.out.println("lubot:");
                 for (int i=0; i<n; i++) {
-                    System.out.println(String.format("  %d: %s", i+1, list.get(i)));
+                    System.out.println(String.format("  %d: %s", i+1, tasks.get(i)));
                 }
 				System.out.println(horizontalBar);
                 continue;
@@ -94,17 +94,17 @@ public class Lubot {
 
 		// mark task
 		if (userInputs[0].equalsIgnoreCase("mark")) {
-			list.get(number).markDone();
+            tasks.set(number, tasks.get(number).markDone());
 			System.out.println("lubot: ive marked the following task!");
-			System.out.println(String.format("  %d: %s", number+1, list.get(number)));
+			System.out.println(String.format("  %d: %s", number+1, tasks.get(number)));
 			return;
 		}
 
 		// unmark task
 		if (userInputs[0].equalsIgnoreCase("unmark")) {
-			list.get(number).markUndone();
+            tasks.set(number, tasks.get(number).markUndone());
 			System.out.println("lubot: ive unmarked the following task!");
-			System.out.println(String.format("  %d: %s", number+1, list.get(number)));
+			System.out.println(String.format("  %d: %s", number+1, tasks.get(number)));
 			return;
 		}
 	}
@@ -128,8 +128,8 @@ public class Lubot {
 		}
 
 		// delete task
-        Task deletedTask = list.get(number);
-        list.remove(number);
+        Task deletedTask = tasks.get(number);
+        tasks.remove(number);
         n--;
         System.out.println("lubot: ive delete the following task!");
         System.out.println(String.format("  %d: %s", number+1, deletedTask));
@@ -146,11 +146,11 @@ public class Lubot {
 		}
 		
 		if (temp[0].equalsIgnoreCase("todo")){
-            list.add(new Todo(temp[1]));
+            tasks.add(new Todo(temp[1]));
 			n++;
 
 			System.out.println("lubot: added a todo!");
-			System.out.println(String.format("  %s", list.get(n-1)));
+			System.out.println(String.format("  %s", tasks.get(n-1)));
 			return;
 		}
 
@@ -163,11 +163,11 @@ public class Lubot {
 				return;
 			}
 
-            list.add(new Deadline(userInputs[0], userInputs[1]));
+            tasks.add(new Deadline(userInputs[0], userInputs[1]));
 			n++;
 
 			System.out.println("lubot: added a deadline!");
-			System.out.println(String.format("  %s", list.get(n-1)));
+			System.out.println(String.format("  %s", tasks.get(n-1)));
 			return;
 		}
 
@@ -185,11 +185,11 @@ public class Lubot {
 				return;
 			}
 
-            list.add(new Event(userInputs[0], userInputs[1], userInputs[2]));
+            tasks.add(new Event(userInputs[0], userInputs[1], userInputs[2]));
 			n++;
 
 			System.out.println("lubot: added an event!");
-			System.out.println(String.format("  %s", list.get(n-1)));
+			System.out.println(String.format("  %s", tasks.get(n-1)));
 			return;
 		}
 
