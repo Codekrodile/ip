@@ -25,6 +25,10 @@ public class Task {
         return new Task(this.description, false);
     }
 
+    public String toFileFormat() {
+        return String.format("%s | %s", this.description, this.isDone);
+    }
+
     public String toString() {
         return String.format("[%c] %s", this.isDone?'x':' ', this.description);
     }

@@ -22,6 +22,10 @@ public class Event extends Task{
         return new Event(super.markUndone(), this.from, this.to);
     }
 
+    public String toFileFormat() {
+        return String.format("E | %s | %s | %s", super.toFileFormat(), this.from, this.to);
+    }
+
     public String toString() {
         return String.format("[E]%s (from: %s to: %s)", super.toString(), this.from, this.to);
     }
