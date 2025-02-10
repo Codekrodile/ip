@@ -19,10 +19,6 @@ public class Deadline extends Task{
         return new Deadline(super.markUndone(), this.by);
     }
 
-    public String toFileFormat() {
-        return String.format("D | %s | %s", super.toFileFormat(), this.by);
-    }
-
     public String toString() {
         return String.format("[D]%s (by: %s)", super.toString(), this.by);
     }

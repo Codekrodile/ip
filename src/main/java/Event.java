@@ -1,6 +1,6 @@
 public class Event extends Task{
-    protected String from;
-    protected String to;
+    private String from;
+    private String to;
 
     public Event(String description, String from, String to) {
         super(description);
@@ -20,10 +20,6 @@ public class Event extends Task{
 
     public Event markUndone() {
         return new Event(super.markUndone(), this.from, this.to);
-    }
-
-    public String toFileFormat() {
-        return String.format("E | %s | %s | %s", super.toFileFormat(), this.from, this.to);
     }
 
     public String toString() {

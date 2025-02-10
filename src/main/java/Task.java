@@ -1,6 +1,6 @@
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    private String description;
+    private boolean isDone;
 
     public Task(String description) {
         this.description = description;
@@ -23,10 +23,6 @@ public class Task {
 
     public Task markUndone() {
         return new Task(this.description, false);
-    }
-
-    public String toFileFormat() {
-        return String.format("%s | %s", this.description, this.isDone);
     }
 
     public String toString() {

@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Lubot {
 	private static ArrayList<Task> tasks = new ArrayList<>();

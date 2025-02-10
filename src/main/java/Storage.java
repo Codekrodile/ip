@@ -29,20 +29,23 @@ public class Storage {
          * [D][ ] return book  (by:  Sunday)
          * [E][x] collect angpao  (from: wed to:  thu)
          */
-        String s = task.toString();
+        String taskString = task.toString();
 
         // Todo
-        if (s.charAt(1) == "T") {
-            return "T | " + s.charAt(4)=='X'? 1:0 + " | " + s.substring(7);
+        if (task instanceof Todo) {
+            return "T | " + taskString.charAt(4)=='X'? 1:0 + " | " + taskString.substring(7);
         }
 
         // Deadline
-        if (s.charAt(1) == "D") {
-            return "D | " + s.charAt(4)=='X'? 1:0 + " | " + s.substring(7);
+        if (task instanceof Deadline) {
+            int byIndex = taskString.indexOf("(by: ");
+            return "D | " + taskString.charAt(4)=='X'? 1:0 + " | " + taskString.substring(7, byIndex) + " | " + taskString.substring(byIndex + 5, taskString.length() - 1);
         }
 
         // Event
-        return "E | " + s.charAt(4)=='X'? 1:0 + " | " + s.substring(7);
+        int fromIndex = taskString.indexOf("(from: ");
+        int toIndex = taskString.indexOf(" to: ");
+        return "E | " + taskString.charAt(4)=='X'? 1:0 + " | " + taskString.substring(7, fromIndex) + " | " + taskString.substring(fromIndex + 7, toIndex) + " | " + taskString.substring(toIndex + 5, taskString.length() - 1);
     }
 
     public ArrayList<Task> loadTasks() {
@@ -85,7 +88,10 @@ public class Storage {
 
         // Todo
         if (parts[0] == 'T') {
-            return new Todo(" ");
+            if (parts[1] == 0) {
+                return new Todo(parts[2]).markUndone();
+            }
+            return new Todo(parts[2]);
         }
 
         // Deadline
@@ -94,7 +100,7 @@ public class Storage {
         }
 
         // Event
-        return new Event(" ", " ");
+        return new Event(" ", " ", " ");
     }
 
 }
