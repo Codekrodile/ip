@@ -1,0 +1,7 @@
+D | 1 | b | 2
+E | 0 | c | 4 | 9
+E | 1 | d | 5 | 7
+T | 1 | g
+T | 0 | a
+T | 0 | b
+D | 0 | z | adfa adfa asfda
