@@ -1,17 +1,17 @@
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Lubot {
 	private static ArrayList<Task> tasks = new ArrayList<>();
-	private static int n = 0;
+	private static int n;
 
     public static void main(String[] args) {
         String logo = ".____         ___.           __   \n"
-        + "|    |    __ _\\_ |__   _____/  |_ \n"
-        + "|    |   |  |  \\ __ \\ /  _ \\   __\\\n"
-        + "|    |___|  |  / \\_\\ (  <_> )  |  \n"
-        + "|_______ \\____/|___  /\\____/|__|  \n"
-        + "        \\/         \\/             \n";
+            + "|    |    __ _\\_ |__   _____/  |_ \n"
+            + "|    |   |  |  \\ __ \\ /  _ \\   __\\\n"
+            + "|    |___|  |  / \\_\\ (  <_> )  |  \n"
+            + "|_______ \\____/|___  /\\____/|__|  \n"
+            + "        \\/         \\/             \n";
 
         String horizontalBar = "____________________________________________\n";
 
@@ -29,8 +29,13 @@ public class Lubot {
 
         // main
         Scanner scanner = new Scanner(System.in);
-        
+        Storage.ensureFileExists();
+        tasks = Storage.loadTasks();
+        n = tasks.size();
+
         while (true) {
+            Storage.saveTasks(tasks);
+
             System.out.print("You: ");
             String userInput = scanner.nextLine();
 
@@ -71,7 +76,6 @@ public class Lubot {
         // end
         System.out.println("lubot: pls come again");
         System.out.println(horizontalBar);
-
     }
 	
 	private static void markUnmarkTask(String userInput) {
@@ -156,7 +160,7 @@ public class Lubot {
 
 		if (temp[0].equalsIgnoreCase("deadline")){
 			// format input
-			String[] userInputs = temp[1].split("/by", 2);
+			String[] userInputs = temp[1].split(" /by ", 2);
 
 			if (userInputs.length != 2) {
 				System.out.println("lubot: invalid input, deadline <desc> /by <date>");
@@ -178,7 +182,7 @@ public class Lubot {
 			}
 
 			// format input
-			String[] userInputs = temp[1].split("/from | /to", 3);
+			String[] userInputs = temp[1].split(" /from | /to ", 3);
 
 			if (userInputs.length != 3) {
 				System.out.println("lubot: invalid input, event <desc> /from <date> /to <date>");
@@ -197,6 +201,4 @@ public class Lubot {
 		System.out.println("lubot: invalid input");
 	}
 }
-
-
 
