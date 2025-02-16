@@ -1,28 +1,34 @@
-public class Event extends Task{
-    private String from;
-    private String to;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    public Event(String description, String from, String to) {
+public class Event extends Task{
+    private LocalDate fromDate;
+    private LocalDate toDate;
+
+    public Event(String description, LocalDate fromDate, LocalDate toDate) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    private Event(Task t, String from, String to) {
+    private Event(Task t, LocalDate fromDate, LocalDate toDate) {
         super(t);
-        this.from = from;
-        this.to = to;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
     public Event markDone() {
-        return new Event(super.markDone(), this.from, this.to);
+        return new Event(super.markDone(), this.fromDate, this.toDate);
     }
 
     public Event markUndone() {
-        return new Event(super.markUndone(), this.from, this.to);
+        return new Event(super.markUndone(), this.fromDate, this.toDate);
     }
 
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", super.toString(), this.from, this.to);
+        return String.format("[E]%s (from: %s to: %s)", 
+                super.toString(), 
+                this.fromDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")), 
+                this.toDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))); 
     }
 }

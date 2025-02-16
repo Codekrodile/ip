@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Lubot {
 	private static ArrayList<Task> tasks = new ArrayList<>();
@@ -17,14 +18,7 @@ public class Lubot {
 
         // start
         System.out.println(logo);
-        System.out.println("lubot: greetings master, how can i be of service today?");
-        System.out.println("lubot: type 'tasks' to see tasks");
-        System.out.println("lubot: type 'exit' to exit");
-        System.out.println("lubot: type 'mark <int>' to mark a task");
-        System.out.println("lubot: type 'delete <int>' to delete a task");
-        System.out.println("lubot: type 'todo' to add a todo");
-        System.out.println("lubot: type 'deadline /by <date>' to add a deadline");
-        System.out.println("lubot: type 'event /from <date> /to <date>' to add an event");
+        showCommands();
         System.out.println(horizontalBar);
 
         // main
@@ -42,6 +36,12 @@ public class Lubot {
             // exit
             if (userInput.equalsIgnoreCase("exit")) {
                 break;
+            }
+
+            if (userInput.equalsIgnoreCase("help")) {
+                showCommands();
+				System.out.println(horizontalBar);
+                continue;
             }
 
             // see tasks
@@ -76,12 +76,30 @@ public class Lubot {
         // end
         System.out.println("lubot: pls come again");
         System.out.println(horizontalBar);
+        scanner.close();
+    }
+
+    private static void showCommands() {
+        System.out.println("lubot: greetings master, these are the commands available");
+        System.out.println("lubot: type 'help' to see all commands");
+        System.out.println("lubot: type 'tasks' to see tasks");
+        System.out.println("lubot: type 'exit' to exit");
+        System.out.println("lubot: type 'mark <int>' to mark a task");
+        System.out.println("lubot: type 'delete <int>' to delete a task");
+        System.out.println("lubot: type 'todo <description>' to add a todo");
+        System.out.println("lubot: type 'deadline <description> /by <yyyy-MM-dd>' to add a deadline");
+        System.out.println("lubot: type 'event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>' to add an event");
     }
 	
 	private static void markUnmarkTask(String userInput) {
 		// format input
 		int number;
 		String[] userInputs = userInput.split(" ", 2);
+        
+        // check number of argument
+        if (userInputs.length != 2) {
+			System.out.println("lubot: incorrect number of argument, mark <int>");
+        }
 		
 		// check 2nd argument
 		try {
@@ -117,6 +135,11 @@ public class Lubot {
 		// format input
 		int number;
 		String[] userInputs = userInput.split(" ", 2);
+        
+        // check number of argument
+        if (userInputs.length != 2) {
+			System.out.println("lubot: incorrect number of arguments, delete <int>");
+        }
 		
 		// check 2nd argument
 		try {
@@ -148,8 +171,14 @@ public class Lubot {
 			System.out.println("lubot: invalid input");
 			return;
 		}
+
+        if (temp[1].trim().isEmpty()) {
+			System.out.println("lubot: description cannot be empty");
+			return;
+        }
 		
 		if (temp[0].equalsIgnoreCase("todo")){
+            // update tasks
             tasks.add(new Todo(temp[1]));
 			n++;
 
@@ -163,11 +192,17 @@ public class Lubot {
 			String[] userInputs = temp[1].split(" /by ", 2);
 
 			if (userInputs.length != 2) {
-				System.out.println("lubot: invalid input, deadline <desc> /by <date>");
+				System.out.println("lubot: invalid input, deadline <desc> /by <yyyy-MM-dd>");
 				return;
 			}
 
-            tasks.add(new Deadline(userInputs[0], userInputs[1]));
+            LocalDate dueDate = DateUtil.formatUserInputDate(userInputs[1]);
+            if (dueDate == null) {
+                return;
+            }
+
+            // update tasks
+            tasks.add(new Deadline(userInputs[0], dueDate));
 			n++;
 
 			System.out.println("lubot: added a deadline!");
@@ -189,7 +224,15 @@ public class Lubot {
 				return;
 			}
 
-            tasks.add(new Event(userInputs[0], userInputs[1], userInputs[2]));
+            LocalDate fromDate = DateUtil.formatUserInputDate(userInputs[1]);
+            LocalDate toDate = DateUtil.formatUserInputDate(userInputs[2]);
+
+            if (fromDate == null || toDate == null) {
+                return;
+            }
+
+            // update tasks
+            tasks.add(new Event(userInputs[0], fromDate, toDate));
 			n++;
 
 			System.out.println("lubot: added an event!");

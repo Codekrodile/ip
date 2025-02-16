@@ -1,7 +1,7 @@
-D | 1 | b | 2
-E | 0 | c | 4 | 9
-E | 1 | d | 5 | 7
 T | 1 | g
+T | 1 | b
+E | 0 | d | Nov 11 1111 | Nov 11 2000
+E | 1 | e | Nov 11 1111 | Nov 12 2222
+D | 0 | adfsadfsa adfasfd adfa | Nov 11 3333
 T | 0 | a
-T | 0 | b
-D | 0 | z | adfa adfa asfda
+D | 1 | return book | Nov 11 1222
