@@ -25,7 +25,11 @@ public class Task {
         return new Task(this.description, false);
     }
 
+	public String toStorageFormat() {
+		return String.format("%c | %s", this.isDone ? '1' : '0', this.description);
+	}
+
     public String toString() {
-        return String.format("[%c] %s", this.isDone?'x':' ', this.description);
+        return String.format("[%c] %s", this.isDone ? 'x' : ' ', this.description);
     }
 }

@@ -8,81 +8,49 @@ import java.util.stream.Collectors;
 import java.time.LocalDate;
 
 public class Storage {
-    private static final Path FILE_PATH = Paths.get("./data/lubot.txt");
+	private final Path filePath;
 
-    public static void ensureFileExists() {
+	public Storage(String filePath) {
+		this.filePath = Paths.get(filePath);
+		ensureFileExists();
+	}
+
+    public void ensureFileExists() {
         try {
-            if (Files.notExists(FILE_PATH.getParent())) {
-                Files.createDirectories(FILE_PATH.getParent());
+            if (Files.notExists(filePath.getParent())) {
+                Files.createDirectories(filePath.getParent());
             }
-            if (Files.notExists(FILE_PATH)) {
-                Files.createFile(FILE_PATH);
+            if (Files.notExists(filePath)) {
+                Files.createFile(filePath);
             }
         } catch (IOException e) {
             System.out.println("error: " + e.getMessage());
         }
     }
 
-    public static void saveTasks(ArrayList<Task> tasks) {
+    public void saveTasks(ArrayList<Task> tasks) {
+		List<String> taskStrings = new ArrayList<>();
+
+		for (Task t : tasks) {
+			taskStrings.add(t.toStorageFormat());
+		}
+
         try {
-            List<String> taskStrings = new ArrayList<>();
-
-            for (Task t : tasks) {
-                taskStrings.add(taskToString(t));
-            }
-
-            Files.write(FILE_PATH, taskStrings);
+            Files.write(filePath, taskStrings);
         } catch (IOException e) {
             System.out.println("error: " + e.getMessage());
         }
     }
 
-    private static String taskToString(Task task) {
-        /*
-         * [T][ ] borrow book
-         * [D][ ] return book  (by:  Sunday)
-         * [E][x] collect angpao  (from: wed to:  thu)
-         */
-        String taskString = task.toString();
-        boolean isDone = taskString.charAt(4) == 'x';
-
-        // Todo
-        if (task instanceof Todo) {
-            return String.format("T | %s | %s", 
-                    isDone? "1":"0", 
-                    taskString.substring(7));
-        }
-
-        // Deadline
-        if (task instanceof Deadline) {
-            int byIndex = taskString.indexOf(" (by: ");
-
-            return String.format("D | %s | %s | %s", 
-                    isDone? "1":"0",
-                    taskString.substring(7, byIndex),
-                    taskString.substring(byIndex + 6, taskString.length() - 1));
-        }
-
-        // Event
-        int fromIndex = taskString.indexOf(" (from: ");
-        int toIndex = taskString.indexOf(" to: ");
-
-        return String.format("E | %s | %s | %s | %s",
-                isDone? "1":"0",
-                taskString.substring(7, fromIndex),
-                taskString.substring(fromIndex + 8, toIndex),
-                taskString.substring(toIndex + 5, taskString.length() - 1));
-    }
-
-    public static ArrayList<Task> loadTasks() {
+    public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         ensureFileExists();
 
         try {
-            List<String> taskStrings = Files.readAllLines(FILE_PATH);
+            List<String> taskStrings = Files.readAllLines(filePath);
 
             for (String s : taskStrings) {
-                Task t = stringToTask(s);
+                Task t = Parser.storageStringToTask(s);
 
                 if (t != null) {
                     tasks.add(t);
@@ -93,47 +61,6 @@ public class Storage {
         }
 
         return tasks;
-    }
-
-    public static Task stringToTask(String s) {
-        String[] parts = s.split(" \\| ");
-
-        // check for error
-        if (parts.length < 3) {
-            return null;
-        }
-
-        boolean isDone = parts[1].equals("1");
-
-        // Todo
-        if (parts[0].equals("T")) {
-            return isDone ? new Todo(parts[2]).markDone() : new Todo(parts[2]);
-        }
-
-        // Deadline
-        if (parts[0].equals("D")) {
-            LocalDate dueDate = DateUtil.formatStorageDate(parts[3]);
-
-            if (dueDate == null) {
-                return null;
-            }
-
-            return isDone ? 
-                new Deadline(parts[2], dueDate).markDone() : 
-                new Deadline(parts[2], dueDate);
-        }
-
-        // Event
-        LocalDate fromDate = DateUtil.formatStorageDate(parts[3]);
-        LocalDate toDate = DateUtil.formatStorageDate(parts[4]);
-
-        if (fromDate == null || toDate == null) {
-            return null;
-        }
-
-        return isDone ? 
-            new Event(parts[2], fromDate, toDate).markDone() :
-            new Event(parts[2], fromDate, toDate);
     }
 }
 

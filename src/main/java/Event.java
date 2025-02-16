@@ -25,6 +25,10 @@ public class Event extends Task{
         return new Event(super.markUndone(), this.fromDate, this.toDate);
     }
 
+	public String toStorageFormat() {
+		return String.format("E | %s | %s | %s", super.toStorageFormat(), this.fromDate, this.toDate);
+	}
+
     public String toString() {
         return String.format("[E]%s (from: %s to: %s)", 
                 super.toString(), 
