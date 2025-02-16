@@ -1,25 +1,30 @@
-public class Deadline extends Task{
-    private String by;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String description, String by) {
+public class Deadline extends Task{
+    private LocalDate dueDate;
+
+    public Deadline(String description, LocalDate dueDate) {
         super(description);
-        this.by = by;
+        this.dueDate = dueDate;
     }
 
-    private Deadline(Task t, String by) {
+    private Deadline(Task t, LocalDate dueDate) {
         super(t);
-        this.by = by;
+        this.dueDate = dueDate;
     }
 
     public Deadline markDone() {
-        return new Deadline(super.markDone(), this.by);
+        return new Deadline(super.markDone(), this.dueDate);
     }
 
     public Deadline markUndone() {
-        return new Deadline(super.markUndone(), this.by);
+        return new Deadline(super.markUndone(), this.dueDate);
     }
 
     public String toString() {
-        return String.format("[D]%s (by: %s)", super.toString(), this.by);
+        return String.format("[D]%s (by: %s)", 
+                super.toString(), 
+                this.dueDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
     }
 }

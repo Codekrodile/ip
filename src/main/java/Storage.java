@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 public class Storage {
     private static final Path FILE_PATH = Paths.get("./data/lubot.txt");
@@ -106,25 +107,33 @@ public class Storage {
 
         // Todo
         if (parts[0].equals("T")) {
-            if (isDone) {
-                return new Todo(parts[2]).markDone();
-            }
-            return new Todo(parts[2]);
+            return isDone ? new Todo(parts[2]).markDone() : new Todo(parts[2]);
         }
 
         // Deadline
         if (parts[0].equals("D")) {
-            if (isDone) {
-                return new Deadline(parts[2], parts[3]).markDone();
+            LocalDate dueDate = DateUtil.formatStorageDate(parts[3]);
+
+            if (dueDate == null) {
+                return null;
             }
-            return new Deadline(parts[2], parts[3]);
+
+            return isDone ? 
+                new Deadline(parts[2], dueDate).markDone() : 
+                new Deadline(parts[2], dueDate);
         }
 
         // Event
-        if (isDone) {
-            return new Event(parts[2], parts[3], parts[4]).markDone();
+        LocalDate fromDate = DateUtil.formatStorageDate(parts[3]);
+        LocalDate toDate = DateUtil.formatStorageDate(parts[4]);
+
+        if (fromDate == null || toDate == null) {
+            return null;
         }
-        return new Event(parts[2], parts[3], parts[4]);
+
+        return isDone ? 
+            new Event(parts[2], fromDate, toDate).markDone() :
+            new Event(parts[2], fromDate, toDate);
     }
 }
 
