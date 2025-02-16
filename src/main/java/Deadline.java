@@ -22,6 +22,10 @@ public class Deadline extends Task{
         return new Deadline(super.markUndone(), this.dueDate);
     }
 
+	public String toStorageFormat() {
+		return String.format("D | %s | %s", super.toStorageFormat(), this.dueDate);
+	}
+
     public String toString() {
         return String.format("[D]%s (by: %s)", 
                 super.toString(), 

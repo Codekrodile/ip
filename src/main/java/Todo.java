@@ -15,6 +15,10 @@ public class Todo extends Task{
         return new Todo(super.markUndone());
     }
 
+	public String toStorageFormat() {
+		return String.format("T | %s", super.toStorageFormat());
+	}
+
     public String toString() {
         return String.format("[T]%s", super.toString());
     }
