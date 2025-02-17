@@ -1,4 +1,17 @@
+package lubot.parser;
+
+import lubot.storage.Storage;
+import lubot.tasks.Event;
+import lubot.tasks.Deadline;
+import lubot.tasks.Task;
+import lubot.tasks.TaskList;
+import lubot.tasks.Todo;
+import lubot.ui.Ui;
+import lubot.util.DateUtil;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Parser {
     public static boolean processCommand(String userInput, TaskList taskList, Ui ui, Storage storage) {
@@ -22,7 +35,7 @@ public class Parser {
 
         // check number of argument
         if (splitInput.length != 2) {
-			ui.printErrorMessage("incorrect number of arguments, use 'mark <int>'");
+			ui.printErrorMessage("Unknown command.");
 			return true;
         }
 
@@ -52,7 +65,8 @@ public class Parser {
                 ui.printErrorMessage("Unknown command: " + command);
         }
 
-		storage.saveTasks(taskList.getTasks());
+        handleSaveTasks(taskList, storage);
+		// storage.saveTasks(taskList.getTasks());
 		return true;
     }
 
@@ -142,7 +156,7 @@ public class Parser {
         }
 
 		// check date format
-		LocalDate dueDate = DateUtil.formatDate(deadlineParts[1]);
+		LocalDate dueDate = DateUtil.parseDate(deadlineParts[1]);
 		if (dueDate == null) {
 			return;
 		}
@@ -177,8 +191,8 @@ public class Parser {
         }
 		
 		// check date format
-		LocalDate fromDate = DateUtil.formatDate(eventParts[1]);
-		LocalDate toDate = DateUtil.formatDate(eventParts[2]);
+		LocalDate fromDate = DateUtil.parseDate(eventParts[1]);
+		LocalDate toDate = DateUtil.parseDate(eventParts[2]);
 		if (fromDate == null || toDate == null) {
 			return;
 		}
@@ -191,7 +205,37 @@ public class Parser {
 		return;
 	}
 
-	public static Task storageStringToTask(String taskString) {
+    public static void handleSaveTasks(TaskList taskList, Storage storage) {
+        List<Task> tasks = taskList.getTasks();
+        List<String> taskStrings = new ArrayList<>();
+
+        for (Task t : tasks) {
+            String taskString = t.toStorageFormat();
+
+            if (t != null) {
+                taskStrings.add(taskString);
+            }
+        }
+
+        storage.saveTasks(taskStrings);
+        return;
+    }
+
+	public static List<Task> rawTaskDataToTasks(List<String> rawTaskData) {
+        List<Task> tasks = new ArrayList<>();
+
+        for (String rawTaskString : rawTaskData) {
+            Task t = Parser.rawTaskStringToTask(rawTaskString);
+
+            if (t != null) {
+                tasks.add(t);
+            }
+        }
+
+        return tasks;
+	}
+
+	public static Task rawTaskStringToTask(String taskString) {
         String[] parts = taskString.split(" \\| ");
 
         // check number of arguments
@@ -210,7 +254,7 @@ public class Parser {
 
         // Deadline
         if (parts[0].equals("D")) {
-            LocalDate dueDate = DateUtil.formatDate(parts[3]);
+            LocalDate dueDate = DateUtil.parseDate(parts[3]);
 
             if (dueDate == null) {
                 return null;
@@ -222,8 +266,8 @@ public class Parser {
         }
 
         // Event
-        LocalDate fromDate = DateUtil.formatDate(parts[3]);
-        LocalDate toDate = DateUtil.formatDate(parts[4]);
+        LocalDate fromDate = DateUtil.parseDate(parts[3]);
+        LocalDate toDate = DateUtil.parseDate(parts[4]);
 
         if (fromDate == null || toDate == null) {
             return null;

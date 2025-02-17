@@ -1,9 +1,9 @@
-// package lubot;
+package lubot;
 
-// import lubot.tasks.TaskList;
-// import lubot.storage.Storage;
-// import lubot.ui.Ui;
-// import lubot.parser.Parser;
+import lubot.tasks.TaskList;
+import lubot.storage.Storage;
+import lubot.ui.Ui;
+import lubot.parser.Parser;
 
 public class Lubot {
     private Storage storage;
@@ -11,13 +11,16 @@ public class Lubot {
     private Ui ui;
 
     public Lubot(String filePath) {
-        ui = new Ui();
-        storage = new Storage(filePath);
-        tasks = new TaskList(storage.loadTasks());
+        this.ui = new Ui();
+        this.storage = new Storage(filePath);
+        this.tasks = new TaskList(Parser.rawTaskDataToTasks(storage.loadRawTaskData()));
     }
 
     public void run() {
         ui.printWelcomeMessage();
+        tasks.listTasks();
+        ui.printHorizontalBar();
+
 		boolean isRunning = true;
 
         while (isRunning) {

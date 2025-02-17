@@ -1,3 +1,7 @@
+package lubot.storage;
+
+// import lubot.tasks.Task;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +32,15 @@ public class Storage {
         }
     }
 
+    public void saveTasks(List<String> taskStrings) {
+        try {
+            Files.write(filePath, taskStrings);
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    /*
     public void saveTasks(ArrayList<Task> tasks) {
 		List<String> taskStrings = new ArrayList<>();
 
@@ -41,26 +54,40 @@ public class Storage {
             System.out.println("error: " + e.getMessage());
         }
     }
+    */
 
+    public List<String> loadRawTaskData() {
+        ensureFileExists();
+
+        try {
+            return Files.readAllLines(filePath);
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+
+        return new ArrayList<>();
+    }
+    /*
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         ensureFileExists();
 
         try {
             List<String> taskStrings = Files.readAllLines(filePath);
-
-            for (String s : taskStrings) {
-                Task t = Parser.storageStringToTask(s);
-
-                if (t != null) {
-                    tasks.add(t);
-                }
-            }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
 
+        for (String s : taskStrings) {
+            Task t = Parser.storageStringToTask(s);
+
+            if (t != null) {
+                tasks.add(t);
+            }
+        }
+
         return tasks;
     }
+    */
 }
 

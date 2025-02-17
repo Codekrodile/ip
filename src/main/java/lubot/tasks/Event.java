@@ -1,3 +1,5 @@
+package lubot.tasks;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -26,7 +28,10 @@ public class Event extends Task{
     }
 
 	public String toStorageFormat() {
-		return String.format("E | %s | %s | %s", super.toStorageFormat(), this.fromDate, this.toDate);
+		return String.format("E | %s | %s | %s", 
+                super.toStorageFormat(), 
+                this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), 
+                this.toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 	}
 
     public String toString() {

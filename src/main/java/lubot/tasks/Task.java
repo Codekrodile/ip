@@ -1,3 +1,5 @@
+package lubot.tasks;
+
 public class Task {
     private String description;
     private boolean isDone;
@@ -26,10 +28,10 @@ public class Task {
     }
 
 	public String toStorageFormat() {
-		return String.format("%c | %s", this.isDone ? '1' : '0', this.description);
+		return String.format("%s | %s", this.isDone ? "1" : "0", this.description);
 	}
 
     public String toString() {
-        return String.format("[%c] %s", this.isDone ? 'x' : ' ', this.description);
+        return String.format("[%s] %s", this.isDone ? "x" : " ", this.description);
     }
 }

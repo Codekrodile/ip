@@ -1,3 +1,5 @@
+package lubot.tasks;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -23,7 +25,9 @@ public class Deadline extends Task{
     }
 
 	public String toStorageFormat() {
-		return String.format("D | %s | %s", super.toStorageFormat(), this.dueDate);
+		return String.format("D | %s | %s", 
+                super.toStorageFormat(), 
+                this.dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 	}
 
     public String toString() {
