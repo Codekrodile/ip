@@ -18,8 +18,8 @@ public class Lubot {
 
     public void run() {
         ui.printWelcomeMessage();
-        ui.printMessage("Tasks:");
         tasks.listTasks();
+        ui.printHorizontalBar();
 
 		boolean isRunning = true;
 
