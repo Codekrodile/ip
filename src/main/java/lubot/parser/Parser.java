@@ -164,7 +164,7 @@ public class Parser {
 		// update tasks
 		Deadline newTask = new Deadline(deadlineParts[0], dueDate);
 		taskList.addTask(newTask);
-		ui.printMessage("lubot: added a deadline!");
+		ui.printMessage("added a deadline!");
 		ui.printMessage(String.format("  %s", newTask));
 		return;
 	}

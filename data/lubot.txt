@@ -1,0 +1,3 @@
+D | 1 | return book | 1111-11-11
+E | 0 | performance at school | 1111-11-11 | 1111-11-12
+T | 0 | study algebra
