@@ -31,6 +31,10 @@ public class Storage {
     }
 
     public void saveTasks(List<String> taskStrings) {
+		if (taskStrings.isEmpty()) {
+			return;
+		}
+
         try {
             Files.write(filePath, taskStrings);
         } catch (IOException e) {
