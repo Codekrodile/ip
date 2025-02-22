@@ -75,6 +75,27 @@ public class TaskList {
 		}
 	}
 
+	public void findTasks(String keyword) {
+		List<String> matchingTasks = new ArrayList<>();
+
+		// check each task description if it contains the keyword
+		for (int i=0; i<tasks.size(); i++) {
+			if (tasks.get(i).toString().contains(keyword)) {
+				matchingTasks.add(String.format("%d: %s", i+1, tasks.get(i).toString()));
+			}
+		}
+
+		// print output
+		if (matchingTasks.isEmpty()) {
+			System.out.println("No matching tasks found.");
+		} else {
+			System.out.println("Here are the matching tasks in your list:");
+			for (int i=0; i<matchingTasks.size(); i++) {
+				System.out.println(matchingTasks.get(i));
+			}
+		}
+	}
+
     /**
      * Gets the number of tasks in the list.
      *

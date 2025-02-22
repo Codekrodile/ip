@@ -73,12 +73,16 @@ public class Parser {
 				handleEvent(splitInput, taskList, ui);
                 break;
 
+			case "find":
+				String keyword = splitInput[1];
+				taskList.findTasks(keyword);
+				break;
+
             default:
                 ui.printErrorMessage("Unknown command: " + command);
         }
 
         handleSaveTasks(taskList, storage);
-		// storage.saveTasks(taskList.getTasks());
 		return true;
     }
 
