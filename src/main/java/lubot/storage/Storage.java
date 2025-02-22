@@ -48,6 +48,10 @@ public class Storage {
      * @param taskStrings A list of task representations in string format.
      */
     public void saveTasks(List<String> taskStrings) {
+		if (taskStrings.isEmpty()) {
+			return;
+		}
+
         try {
             Files.write(filePath, taskStrings);
         } catch (IOException e) {
