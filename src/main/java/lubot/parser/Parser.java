@@ -13,7 +13,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Parser class handles user input commands.
+ */
 public class Parser {
+	/**
+	 * Processes the user input.
+	 *
+	 * @param userInput The user's input.
+	 * @param taskList  The task list to store tasks.
+	 * @param ui        The UI handler to display messages.
+	 * @param storage   The storage handler to save tasks.
+	 * @return false if the "exit" commad is given, otherwise true.
+	 */
     public static boolean processCommand(String userInput, TaskList taskList, Ui ui, Storage storage) {
         String[] splitInput = userInput.split(" ", 2);
         String command = splitInput[0].toLowerCase();
@@ -70,6 +82,9 @@ public class Parser {
 		return true;
     }
 
+	/**
+	 * Handles marking and unmarking tasks.
+	 */
 	private static void handleMarkUnmark(String command, String[] splitInput, TaskList taskList, Ui ui) {
 		int index; 
 
@@ -102,6 +117,9 @@ public class Parser {
 		return;
 	}
 
+	/**
+	 * Handles deleting tasks.
+	 */
 	private static void handleDelete(String[] splitInput, TaskList taskList, Ui ui) {
 		int index;
 
@@ -125,6 +143,9 @@ public class Parser {
         return;
 	}
 
+	/**
+	 * Handles adding a Todo task.
+	 */
 	private static void handleTodo(String[] splitInput, TaskList taskList, Ui ui) {
 		// check description
         if (splitInput[1].trim().isEmpty()) {
@@ -140,6 +161,9 @@ public class Parser {
 		return;
 	}
 	
+	/**
+	 * Handles adding a Deadline task.
+	 */
 	private static void handleDeadline(String[] splitInput, TaskList taskList, Ui ui) {
 		String[] deadlineParts = splitInput[1].split(" /by ", 2);
 
@@ -169,6 +193,9 @@ public class Parser {
 		return;
 	}
 	
+	/**
+	 * Handles adding an Event task.
+	 */
 	private static void handleEvent(String[] splitInput, TaskList taskList, Ui ui) {
 		// check positioning of /from and /to
 		if (splitInput[1].indexOf(" /from ") > splitInput[1].indexOf(" /to ")) {
@@ -205,6 +232,9 @@ public class Parser {
 		return;
 	}
 
+	/**
+	 * Saves tasks to storage.
+	 */
     public static void handleSaveTasks(TaskList taskList, Storage storage) {
         List<Task> tasks = taskList.getTasks();
         List<String> taskStrings = new ArrayList<>();
@@ -221,6 +251,9 @@ public class Parser {
         return;
     }
 
+	/**
+	 * Converts tasks from storage format to Task class.
+	 */
 	public static List<Task> rawTaskDataToTasks(List<String> rawTaskData) {
         List<Task> tasks = new ArrayList<>();
 
@@ -235,6 +268,9 @@ public class Parser {
         return tasks;
 	}
 
+	/**
+	 * Converts task string from storage format to Task class.
+	 */
 	public static Task rawTaskStringToTask(String taskString) {
         String[] parts = taskString.split(" \\| ");
 

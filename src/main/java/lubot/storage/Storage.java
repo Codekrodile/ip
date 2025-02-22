@@ -9,14 +9,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
 
+/**
+ * Handles saving and loading task data from a file.
+ */
 public class Storage {
 	private final Path filePath;
 
+	/**
+     * Constructs a Storage instance with the specified file path.
+     *
+     * @param filePath The path where tasks are stored.
+     */
 	public Storage(String filePath) {
 		this.filePath = Paths.get(filePath);
 		ensureFileExists();
 	}
 
+    /**
+     * Ensures that the storage file and its parent directory exist.
+     * Creates them if they do not exist.
+     */
     public void ensureFileExists() {
         try {
             if (Files.notExists(filePath.getParent())) {
@@ -30,6 +42,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the given task list data to the storage file.
+     *
+     * @param taskStrings A list of task representations in string format.
+     */
     public void saveTasks(List<String> taskStrings) {
         try {
             Files.write(filePath, taskStrings);
@@ -38,22 +55,11 @@ public class Storage {
         }
     }
 
-    /*
-    public void saveTasks(ArrayList<Task> tasks) {
-		List<String> taskStrings = new ArrayList<>();
-
-		for (Task t : tasks) {
-			taskStrings.add(t.toStorageFormat());
-		}
-
-        try {
-            Files.write(filePath, taskStrings);
-        } catch (IOException e) {
-            System.out.println("error: " + e.getMessage());
-        }
-    }
-    */
-
+    /**
+     * Loads raw task data from the storage file.
+     *
+     * @return A list of task strings read from the file, or an empty list if an error occurs.
+     */
     public List<String> loadRawTaskData() {
         ensureFileExists();
 
@@ -65,27 +71,4 @@ public class Storage {
 
         return new ArrayList<>();
     }
-    /*
-    public ArrayList<Task> loadTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
-        ensureFileExists();
-
-        try {
-            List<String> taskStrings = Files.readAllLines(filePath);
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        }
-
-        for (String s : taskStrings) {
-            Task t = Parser.storageStringToTask(s);
-
-            if (t != null) {
-                tasks.add(t);
-            }
-        }
-
-        return tasks;
-    }
-    */
 }
-
