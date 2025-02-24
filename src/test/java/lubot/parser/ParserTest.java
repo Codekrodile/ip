@@ -1,17 +1,13 @@
 package lubot.parser;
 
-import lubot.storage.Storage;
-import lubot.tasks.Event;
-import lubot.tasks.Deadline;
-import lubot.tasks.Task;
-import lubot.tasks.TaskList;
-import lubot.tasks.Todo;
-import lubot.ui.Ui;
-import lubot.util.DateUtil;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import lubot.storage.Storage;
+import lubot.tasks.TaskList;
+import lubot.ui.Ui;
 
 public class ParserTest {
     private TaskList taskList;

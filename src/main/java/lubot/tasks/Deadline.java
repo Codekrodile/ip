@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Represents a Deadline task with a due date.
  */
-public class Deadline extends Task{
+public class Deadline extends Task {
     private LocalDate dueDate;
 
     /**
@@ -48,11 +48,11 @@ public class Deadline extends Task{
      *
      * @return A formatted string representation for storage.
      */
-	public String toStorageFormat() {
-		return String.format("D | %s | %s", 
-                super.toStorageFormat(), 
+    public String toStorageFormat() {
+        return String.format("D | %s | %s",
+                super.toStorageFormat(),
                 this.dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-	}
+    }
 
     /**
      * Returns a string representation of the Deadline.
@@ -60,8 +60,8 @@ public class Deadline extends Task{
      * @return The string format of the Deadline.
      */
     public String toString() {
-        return String.format("[D]%s (by: %s)", 
-                super.toString(), 
+        return String.format("[D]%s (by: %s)",
+                super.toString(),
                 this.dueDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
     }
 }

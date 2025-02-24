@@ -3,7 +3,7 @@ package lubot.tasks;
 /**
  * Represents a Todo task.
  */
-public class Todo extends Task{
+public class Todo extends Task {
     /**
      * Constructs a new Todo.
      *
@@ -40,9 +40,9 @@ public class Todo extends Task{
      *
      * @return A formatted string representation for storage.
      */
-	public String toStorageFormat() {
-		return String.format("T | %s", super.toStorageFormat());
-	}
+    public String toStorageFormat() {
+        return String.format("T | %s", super.toStorageFormat());
+    }
 
     /**
      * Returns a string representation of the Todo.

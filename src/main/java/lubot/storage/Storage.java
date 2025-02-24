@@ -1,29 +1,27 @@
 package lubot.storage;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.time.LocalDate;
 
 /**
  * Handles saving and loading task data from a file.
  */
 public class Storage {
-	private final Path filePath;
+    private final Path filePath;
 
-	/**
+    /**
      * Constructs a Storage instance with the specified file path.
      *
      * @param filePath The path where tasks are stored.
      */
-	public Storage(String filePath) {
-		this.filePath = Paths.get(filePath);
-		ensureFileExists();
-	}
+    public Storage(String filePath) {
+        this.filePath = Paths.get(filePath);
+        ensureFileExists();
+    }
 
     /**
      * Ensures that the storage file and its parent directory exist.
@@ -48,9 +46,9 @@ public class Storage {
      * @param taskStrings A list of task representations in string format.
      */
     public void saveTasks(List<String> taskStrings) {
-		if (taskStrings.isEmpty()) {
-			return;
-		}
+        if (taskStrings.isEmpty()) {
+            return;
+        }
 
         try {
             Files.write(filePath, taskStrings);

@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Represents a Event task with a due date.
  */
-public class Event extends Task{
+public class Event extends Task {
     private LocalDate fromDate;
     private LocalDate toDate;
 
@@ -50,12 +50,12 @@ public class Event extends Task{
      *
      * @return A formatted string representation for storage.
      */
-	public String toStorageFormat() {
-		return String.format("E | %s | %s | %s", 
-                super.toStorageFormat(), 
-                this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), 
+    public String toStorageFormat() {
+        return String.format("E | %s | %s | %s",
+                super.toStorageFormat(),
+                this.fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 this.toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-	}
+    }
 
     /**
      * Returns a string representation of the Event.
@@ -63,9 +63,9 @@ public class Event extends Task{
      * @return The string format of the Event.
      */
     public String toString() {
-        return String.format("[E]%s (from: %s to: %s)", 
-                super.toString(), 
-                this.fromDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")), 
-                this.toDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))); 
+        return String.format("[E]%s (from: %s to: %s)",
+                super.toString(),
+                this.fromDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")),
+                this.toDate.format(DateTimeFormatter.ofPattern("MMM dd yyyy")));
     }
 }

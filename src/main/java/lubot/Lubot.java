@@ -1,9 +1,9 @@
 package lubot;
 
-import lubot.tasks.TaskList;
-import lubot.storage.Storage;
-import lubot.ui.Ui;
 import lubot.parser.Parser;
+import lubot.storage.Storage;
+import lubot.tasks.TaskList;
+import lubot.ui.Ui;
 
 /**
  * Represents the Lubot chatbot application
@@ -14,26 +14,26 @@ public class Lubot {
     private TaskList tasks;
     private Ui ui;
 
-	/**
-	 * Constructs a Lubot instance that initializes UI, storage, and task list.
-	 *
-	 * @param filePath The file path where tasks are stored and loaded from.
-	 */
+    /**
+     * Constructs a Lubot instance that initializes UI, storage, and task list.
+     *
+     * @param filePath The file path where tasks are stored and loaded from.
+     */
     public Lubot(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.tasks = new TaskList(Parser.rawTaskDataToTasks(storage.loadRawTaskData()));
     }
 
-	/**
-	 * Runs the Lubot chatbot, handling user input and executing commands.
-	 */
+    /**
+     * Runs the Lubot chatbot, handling user input and executing commands.
+     */
     public void run() {
         ui.printWelcomeMessage();
         tasks.listTasks();
         ui.printHorizontalBar();
 
-		boolean isRunning = true;
+        boolean isRunning = true;
 
         while (isRunning) {
             String userInput = ui.readCommand();
@@ -45,11 +45,11 @@ public class Lubot {
         ui.close(); // Close Scanner to prevent leaks
     }
 
-	/**
-	 * The entry point of Lubot
-	 *
-	 * @param args Command-line arguments
-	 */
+    /**
+     * The entry point of Lubot
+     *
+     * @param args Command-line arguments
+     */
     public static void main(String[] args) {
         new Lubot("data/lubot.txt").run();
     }

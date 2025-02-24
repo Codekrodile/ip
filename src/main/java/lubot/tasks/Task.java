@@ -55,9 +55,9 @@ public class Task {
      *
      * @return A formatted string representation for storage.
      */
-	public String toStorageFormat() {
-		return String.format("%s | %s", this.isDone ? "1" : "0", this.description);
-	}
+    public String toStorageFormat() {
+        return String.format("%s | %s", this.isDone ? "1" : "0", this.description);
+    }
 
     /**
      * Returns a string representation of the task.
