@@ -69,10 +69,14 @@ public class TaskList {
     /**
      * Prints all tasks in the list.
      */
-    public void listTasks() {
+    public String listTasks() {
+        String s = "";
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println(String.format("  %d: %s", i + 1, tasks.get(i)));
+            s += String.format("  %d: %s\n", i + 1, tasks.get(i));
         }
+
+        return s;
     }
 
     /**
@@ -80,7 +84,7 @@ public class TaskList {
      *
      * @param keyword The keyword to search.
      */
-    public void findTasks(String keyword) {
+    public String findTasks(String keyword) {
         List<String> matchingTasks = new ArrayList<>();
 
         // check each task description if it contains the keyword
@@ -93,12 +97,18 @@ public class TaskList {
         // print output
         if (matchingTasks.isEmpty()) {
             System.out.println("No matching tasks found.");
-        } else {
-            System.out.println("Here are the matching tasks in your list:");
-            for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println(matchingTasks.get(i));
-            }
+            return "No matching tasks found.";
         }
+
+        String s = "Here are the matching tasks in your list:\n";
+        System.out.println("Here are the matching tasks in your list:");
+
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            System.out.println(matchingTasks.get(i));
+            s += matchingTasks.get(i) + "\n";
+        }
+
+        return s;
     }
 
     /**
