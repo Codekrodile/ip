@@ -48,17 +48,16 @@ public class LubotGui {
 
         // Add user and Lubot msg
         dialogContainer.getChildren().addAll(
-            DialogBox.getUserDialog(input),
-            DialogBox.getLubotDialog(response)
-        );
+                DialogBox.getUserDialog(input),
+                DialogBox.getLubotDialog(response));
 
         userInput.clear();
 
-		// Check if user wants to exit
-		if (input.equalsIgnoreCase("exit")) {
-			Platform.exit();
-			return;
-		}
+        // Check if user wants to exit
+        if (input.equalsIgnoreCase("exit")) {
+            Platform.exit();
+            return;
+        }
     }
 }
 
