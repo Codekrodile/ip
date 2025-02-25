@@ -1,5 +1,6 @@
 package lubot.ui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -42,7 +43,6 @@ public class LubotGui {
      */
     @FXML
     private void handleUserInput() {
-        // Get user and Lubot msg
         String input = userInput.getText();
         String response = lubot.getResponse(input);
 
@@ -53,6 +53,12 @@ public class LubotGui {
         );
 
         userInput.clear();
+
+		// Check if user wants to exit
+		if (input.equalsIgnoreCase("exit")) {
+			Platform.exit();
+			return;
+		}
     }
 }
 
