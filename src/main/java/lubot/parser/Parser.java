@@ -26,220 +26,197 @@ public class Parser {
      * @param storage   The storage handler to save tasks.
      * @return false if the "exit" commad is given, otherwise true.
      */
-    public static boolean processCommand(String userInput, TaskList taskList, Ui ui, Storage storage) {
+    public static String processCommand(String userInput, TaskList taskList, Ui ui, Storage storage) {
         String[] splitInput = userInput.split(" ", 2);
         String command = splitInput[0].toLowerCase();
 
         if (command.equals("exit")) {
-            ui.printExitMessage();
-            return false;
+            return ui.printExitMessage();
         }
 
         if (command.equals("tasks")) {
-            taskList.listTasks();
-            return true;
+            return taskList.listTasks();
         }
 
         if (command.equals("help")) {
-            ui.printCommands();
-            return true;
+            return ui.printCommands();
         }
 
         // check number of argument
         if (splitInput.length != 2) {
-            ui.printErrorMessage("Unknown command.");
-            return true;
+            return ui.printErrorMessage("Unknown command.");
         }
 
+        String response;
         switch (command) {
         case "mark":
         case "unmark":
-            handleMarkUnmark(command, splitInput, taskList, ui);
+            response = handleMarkUnmark(command, splitInput, taskList, ui);
             break;
 
         case "delete":
-            handleDelete(splitInput, taskList, ui);
+            response = handleDelete(splitInput, taskList, ui);
             break;
 
         case "todo":
-            handleTodo(splitInput, taskList, ui);
+            response = handleTodo(splitInput, taskList, ui);
             break;
 
         case "deadline":
-            handleDeadline(splitInput, taskList, ui);
+            response = handleDeadline(splitInput, taskList, ui);
             break;
 
         case "event":
-            handleEvent(splitInput, taskList, ui);
+            response = handleEvent(splitInput, taskList, ui);
             break;
 
         case "find":
             String keyword = splitInput[1];
-            taskList.findTasks(keyword);
+            response = taskList.findTasks(keyword);
             break;
 
         default:
-            ui.printErrorMessage("Unknown command: " + command);
+            response = ui.printErrorMessage("Unknown command: " + command);
+            break;
         }
 
-        handleSaveTasks(taskList, storage);
-        return true;
+        saveTasks(taskList, storage);
+        return response;
     }
 
     /**
      * Handles marking and unmarking tasks.
      */
-    private static void handleMarkUnmark(String command, String[] splitInput, TaskList taskList, Ui ui) {
+    private static String handleMarkUnmark(String command, String[] splitInput, TaskList taskList, Ui ui) {
         int index;
 
         // check 2nd argument
         try {
             index = Integer.parseInt(splitInput[1]) - 1;
         } catch (NumberFormatException e) {
-            ui.printErrorMessage("Invalid format! Use 'mark <task_index>' or 'unmark <task_index>'");
-            return;
+            return ui.printErrorMessage("Invalid format! Use 'mark <task_index>' or 'unmark <task_index>'");
         }
 
         // check index out of bound
         if (index < 0 || index > taskList.getSize() - 1) {
-            ui.printErrorMessage("invalid task index, pls enter a index from 1 to " + taskList.getSize());
-            return;
+            return ui.printErrorMessage("invalid task index, pls enter a index from 1 to " + taskList.getSize());
         }
 
         // mark
         if (command.equals("mark")) {
             Task updatedTask = taskList.markTask(index);
-            ui.printMessage("ive marked the following task!");
-            ui.printMessage(String.format("  %d: %s", index + 1, updatedTask));
-            return;
+            return ui.printMessage(String.format("ive marked the follow task!\n  %d: %s", index + 1, updatedTask));
         }
 
         // unmark
         Task updatedTask = taskList.unmarkTask(index);
-        ui.printMessage("ive unmarked the following task!");
-        ui.printMessage(String.format("  %d: %s", index + 1, updatedTask));
-        return;
+        return ui.printMessage(String.format("ive unmarked the following task!\n  %d: %s", index + 1, updatedTask));
     }
 
     /**
      * Handles deleting tasks.
      */
-    private static void handleDelete(String[] splitInput, TaskList taskList, Ui ui) {
+    private static String handleDelete(String[] splitInput, TaskList taskList, Ui ui) {
         int index;
 
         // check 2nd argument
         try {
             index = Integer.parseInt(splitInput[1]) - 1;
         } catch (NumberFormatException e) {
-            ui.printErrorMessage("Invalid format: Use 'delete <task_index>'");
-            return;
+            return ui.printErrorMessage("Invalid format: Use 'delete <task_index>'");
         }
 
         // check index out of bound
         if (index < 0 || index > taskList.getSize() - 1) {
-            ui.printErrorMessage("Index out of bound: pls enter a index from 1 to " + taskList.getSize());
-            return;
+            return ui.printErrorMessage("Index out of bound: pls enter a index from 1 to " + taskList.getSize());
         }
 
+        // delete
         Task deletedTask = taskList.deleteTask(index);
-        ui.printMessage("ive delete the following task!");
-        ui.printMessage(String.format("  %d: %s", index + 1, deletedTask));
-        return;
+        return ui.printMessage(String.format("ive deleted the following task!\n  %d: %s", index + 1, deletedTask));
     }
 
     /**
      * Handles adding a Todo task.
      */
-    private static void handleTodo(String[] splitInput, TaskList taskList, Ui ui) {
+    private static String handleTodo(String[] splitInput, TaskList taskList, Ui ui) {
         // check description
         if (splitInput[1].trim().isEmpty()) {
-            ui.printErrorMessage("Invalid input: description cannot be empty");
-            return;
+            return ui.printErrorMessage("Invalid input: description cannot be empty");
         }
 
         // update tasks
         Todo newTask = new Todo(splitInput[1]);
         taskList.addTask(newTask);
-        ui.printMessage("Added a todo!");
-        ui.printMessage(String.format("  %s", newTask));
-        return;
+        return ui.printMessage(String.format("Added a todo!\n  %s", newTask));
     }
 
     /**
      * Handles adding a Deadline task.
      */
-    private static void handleDeadline(String[] splitInput, TaskList taskList, Ui ui) {
+    private static String handleDeadline(String[] splitInput, TaskList taskList, Ui ui) {
         String[] deadlineParts = splitInput[1].split(" /by ", 2);
 
         // check number of arguments
         if (deadlineParts.length != 2) {
-            ui.printErrorMessage("Invalid input: Use 'deadline <desc> /by <yyyy-MM-dd>'");
-            return;
+            return ui.printErrorMessage("Invalid input: Use 'deadline <desc> /by <yyyy-MM-dd>'");
         }
 
         // check description
         if (deadlineParts[0].trim().isEmpty()) {
-            ui.printErrorMessage("Invalid input: Description cannot be empty");
-            return;
+            return ui.printErrorMessage("Invalid input: Description cannot be empty");
         }
 
         // check date format
         LocalDate dueDate = DateUtil.parseDate(deadlineParts[1]);
         if (dueDate == null) {
-            return;
+            return ui.printErrorMessage("Invalid input: Use yyyy-MM-dd");
         }
 
         // update tasks
         Deadline newTask = new Deadline(deadlineParts[0], dueDate);
         taskList.addTask(newTask);
-        ui.printMessage("added a deadline!");
-        ui.printMessage(String.format("  %s", newTask));
-        return;
+        return ui.printMessage(String.format("Added a deadline\n  %s", newTask));
     }
 
     /**
      * Handles adding an Event task.
      */
-    private static void handleEvent(String[] splitInput, TaskList taskList, Ui ui) {
+    private static String handleEvent(String[] splitInput, TaskList taskList, Ui ui) {
         // check positioning of /from and /to
         if (splitInput[1].indexOf(" /from ") > splitInput[1].indexOf(" /to ")) {
-            ui.printErrorMessage("Invalid input: '/from' should be in front of '/to'");
-            return;
+            return ui.printErrorMessage("Invalid input: '/from' should be in front of '/to'");
         }
 
         String[] eventParts = splitInput[1].split(" /from | /to ");
 
         // check number of argument
         if (eventParts.length != 3) {
-            ui.printErrorMessage("Invalid input: Use 'event <desc> /from <yyyy-MM-dd> /to <yyyy-MM-dd>'");
-            return;
+            return ui.printErrorMessage("Invalid input: Use 'event <desc> /from <yyyy-MM-dd> /to <yyyy-MM-dd>'");
         }
 
         // check description
         if (eventParts[0].trim().isEmpty()) {
-            ui.printErrorMessage("Invalid input: Description cannot be empty");
-            return;
+            return ui.printErrorMessage("Invalid input: Description cannot be empty");
         }
 
         // check date format
         LocalDate fromDate = DateUtil.parseDate(eventParts[1]);
         LocalDate toDate = DateUtil.parseDate(eventParts[2]);
         if (fromDate == null || toDate == null) {
-            return;
+            return ui.printErrorMessage("Invalid input: Use yyyy-MM-dd");
         }
 
         // update tasks
         Event newTask = new Event(eventParts[0], fromDate, toDate);
         taskList.addTask(newTask);
-        ui.printMessage("Added an event!");
-        ui.printMessage(String.format("  %s", newTask));
-        return;
+        return ui.printMessage(String.format("Added an event!\n  %s", newTask));
     }
 
     /**
      * Saves tasks to storage.
      */
-    public static void handleSaveTasks(TaskList taskList, Storage storage) {
+    public static void saveTasks(TaskList taskList, Storage storage) {
         List<Task> tasks = taskList.getTasks();
         List<String> taskStrings = new ArrayList<>();
 
@@ -252,7 +229,6 @@ public class Parser {
         }
 
         storage.saveTasks(taskStrings);
-        return;
     }
 
     /**
@@ -318,3 +294,4 @@ public class Parser {
             : new Event(parts[2], fromDate, toDate);
     }
 }
+
