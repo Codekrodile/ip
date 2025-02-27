@@ -102,20 +102,6 @@ public class Parser {
             return ui.printErrorMessage("Invalid task index, pls enter a index from 1 to " + taskList.getSize());
         }
 
-        /*
-        // check 2nd argument
-        try {
-            index = Integer.parseInt(splitInput[1]) - 1;
-        } catch (NumberFormatException e) {
-            return ui.printErrorMessage("Invalid format! Use 'mark <task_index>' or 'unmark <task_index>'");
-        }
-
-        // check index out of bound
-        if (index < 0 || index > taskList.getSize() - 1) {
-            return ui.printErrorMessage("invalid task index, pls enter a index from 1 to " + taskList.getSize());
-        }
-        */
-
         // mark
         if (command.equals("mark")) {
             Task updatedTask = taskList.markTask(index);
@@ -139,20 +125,6 @@ public class Parser {
         if (index == -2) {
             return ui.printErrorMessage("Invalid task index, pls enter a index from 1 to " + taskList.getSize());
         }
-
-        /*
-        // check 2nd argument
-        try {
-            index = Integer.parseInt(splitInput[1]) - 1;
-        } catch (NumberFormatException e) {
-            return ui.printErrorMessage("Invalid format: Use 'delete <task_index>'");
-        }
-
-        // check index out of bound
-        if (index < 0 || index > taskList.getSize() - 1) {
-            return ui.printErrorMessage("Index out of bound: pls enter a index from 1 to " + taskList.getSize());
-        }
-        */
 
         // delete
         Task deletedTask = taskList.deleteTask(index);
