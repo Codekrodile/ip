@@ -2,3 +2,5 @@ E | 1 | performance at school | 1111-11-11 | 1111-11-12
 T | 0 | study algebra
 D | 0 | 2103t | 1111-11-11
 E | 1 | go JB | 2025-02-26 | 2025-02-25
+F | 0 | band prac for overdrive | 5
+F | 1 | transcribe fuyu | 2

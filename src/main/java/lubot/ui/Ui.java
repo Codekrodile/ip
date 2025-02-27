@@ -86,9 +86,10 @@ public class Ui {
             + "\tmark <int> - to mark a task\n"
             + "\tunmark <int> - to unmark a task\n"
             + "\tdelete <int> - to delete a task\n"
-            + "\ttodo <description> - to add a todo\n"
-            + "\tdeadline <description> /by <yyyy-MM-dd> - to add a deadline\n"
-            + "\tevent <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd> - to add an event\n";
+            + "\ttodo <description> - to add a todo task\n"
+            + "\tdeadline <description> /by <yyyy-MM-dd> - to add a deadline task\n"
+            + "\tevent <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd> - to add an event task\n"
+            + "\tfixed <description> /duration <int> - to add a fixed duration task with number of hours\n";
 
         System.out.println(commands);
         return commands;

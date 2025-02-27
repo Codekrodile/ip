@@ -7,6 +7,7 @@ import java.util.List;
 import lubot.storage.Storage;
 import lubot.tasks.Deadline;
 import lubot.tasks.Event;
+import lubot.tasks.Fixed;
 import lubot.tasks.Task;
 import lubot.tasks.TaskList;
 import lubot.tasks.Todo;
@@ -73,6 +74,10 @@ public class Parser {
 
         case "event":
             response = handleEvent(splitInput, taskList, ui);
+            break;
+
+        case "fixed":
+            response = handleFixed(splitInput, taskList, ui);
             break;
 
         case "find":
@@ -209,6 +214,36 @@ public class Parser {
     }
 
     /**
+     * Handles adding a Fixed task.
+     */
+    private static String handleFixed(String[] splitInput, TaskList taskList, Ui ui) {
+        String[] fixedParts = splitInput[1].split(" /duration ", 2);
+
+        // check number of arguments
+        if (fixedParts.length != 2) {
+            return ui.printErrorMessage("Invalid input: Use 'fixed <desc> /duration <int>'");
+        }
+
+        // check description
+        if (fixedParts[0].trim().isEmpty()) {
+            return ui.printErrorMessage("Invalid input: Description cannot be empty");
+        }
+
+        // check duration data type
+        int duration;
+        try {
+            duration = Integer.parseInt(fixedParts[1]);
+        } catch (NumberFormatException e) {
+            return ui.printErrorMessage("Invalid input: Duration needs to be an integer");
+        }
+
+        // update tasks
+        Fixed newTask = new Fixed(fixedParts[0], duration);
+        taskList.addTask(newTask);
+        return ui.printMessage(String.format("Added a fixed\n  %s", newTask));
+    }
+
+    /**
      * Saves tasks to storage.
      */
     public static void saveTasks(TaskList taskList, Storage storage) {
@@ -277,16 +312,30 @@ public class Parser {
         }
 
         // Event
-        LocalDate fromDate = DateUtil.parseDate(parts[3]);
-        LocalDate toDate = DateUtil.parseDate(parts[4]);
+        if (parts[0].equals("E")) {
+            LocalDate fromDate = DateUtil.parseDate(parts[3]);
+            LocalDate toDate = DateUtil.parseDate(parts[4]);
 
-        if (fromDate == null || toDate == null) {
+            if (fromDate == null || toDate == null) {
+                return null;
+            }
+
+            return isDone
+                ? new Event(parts[2], fromDate, toDate).markDone()
+                : new Event(parts[2], fromDate, toDate);
+        }
+
+        // Fixed
+        int duration;
+        try {
+            duration = Integer.parseInt(parts[3]);
+        } catch (NumberFormatException e) {
             return null;
         }
 
         return isDone
-            ? new Event(parts[2], fromDate, toDate).markDone()
-            : new Event(parts[2], fromDate, toDate);
+            ? new Fixed(parts[2], duration).markDone()
+            : new Fixed(parts[2], duration);
     }
 
     /**
