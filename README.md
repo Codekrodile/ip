@@ -1,26 +1,88 @@
-# Duke project template
+# Lubot - Your Personal Task Manager
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Lubot is a **task management chatbot** that helps you organize your daily tasks efficiently. It provides an intuitive **graphical user interface (GUI)** built with **JavaFX**, and supports **saving and loading** tasks for seamless task tracking.
 
-## Setting up in Intellij
+---
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+## Features
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+✅ **Task Management** – Add, delete, mark, and unmark tasks.  
+✅ **Task Types** – Supports To-dos, Deadlines, Events, and Fixed-Duration Tasks.  
+✅ **Find Tasks** – Search for tasks by keywords.  
+✅ **GUI** – A modern JavaFX-based graphical interface.  
+✅ **Data Persistence** – Tasks are automatically saved to disk.  
+✅ **Graceful Error Handling** – Handles incorrect inputs and file errors smoothly.  
+✅ **Exit Command** – Allows the user to type `exit` to close the application.  
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+---
+
+## Getting Started
+
+### Prerequisites
+- **Java 11** or later
+- **JavaFX** (Included in JAR build)
+- **Gradle** (for building from source)
+
+### Running the Application
+
+#### Method 1: Running via JAR
+```sh
+java -jar build/libs/lubot.jar
+```
+*(Ensure JavaFX runtime components are included in the JAR.)*
+
+#### Method 2: Running from Source
+1. Clone this repository:
+```sh
+git clone https://github.com/your-username/lubot.git
+cd lubot
+```
+2. Run with Gradle:
+```sh
+./gradlew run
+```
+
+---
+
+## Usage
+
+| Command | Example | Description |
+|---------|---------|-------------|
+| `todo <description>` | `todo Read book` | Adds a to-do task |
+| `deadline <description> /by <YYYY-MM-DD>` | `deadline Submit report /by 2024-03-10` | Adds a deadline |
+| `event <description> /from <YYYY-MM-DD> /to <YYYY-MM-DD>` | `event Conference /from 2024-03-12 /to 2024-03-14` | Adds an event |
+| `fixed <description> /duration <hours>` | `fixed Read paper /duration 2` | Adds a fixed-duration task |
+| `list` | `list` | Shows all tasks |
+| `mark <index>` | `mark 1` | Marks task as done |
+| `unmark <index>` | `unmark 1` | Unmarks a task |
+| `delete <index>` | `delete 2` | Deletes a task |
+| `find <keyword>` | `find book` | Finds tasks containing the keyword |
+| `help` | `help` | Displays available commands |
+| `exit` | `exit` | Exits the application |
+
+---
+
+## Code Quality
+
+This project follows:
+- **Checkstyle** – Ensures adherence to Java coding standards.
+- **JUnit Testing** – Includes unit tests for core functionalities.
+- **Assertions** – Uses assertions to document assumptions in the code.
+
+---
+
+## Contributing
+
+Contributions are welcome!  
+To contribute:
+1. Fork the repository.
+2. Create a new branch (`feature-branch`).
+3. Commit your changes with meaningful messages.
+4. Push and open a pull request.
+
+---
+
+## Acknowledgments
+- **JavaFX Documentation** for GUI implementation.  
+- **SE-EDU Guides** for software engineering practices.
+
