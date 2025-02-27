@@ -51,7 +51,7 @@ java -jar build/libs/lubot.jar
 #### Method 2: Running from Source
 1. Clone this repository:
 ```sh
-git clone https://github.com/Codekrodile/lubot.git
+git clone https://github.com/Codekrodile/ip
 cd lubot
 ```
 2. Run with Gradle:
