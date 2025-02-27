@@ -32,6 +32,7 @@ public class Lubot {
      * @return The chatbot's response.
      */
     public String getResponse(String input) {
+        assert input != null : "Input should not be empty";
         return Parser.processCommand(input, this.tasks, this.ui, this.storage);
     }
 
