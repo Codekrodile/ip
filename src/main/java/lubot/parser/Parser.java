@@ -27,6 +27,11 @@ public class Parser {
      * @return false if the "exit" commad is given, otherwise true.
      */
     public static String processCommand(String userInput, TaskList taskList, Ui ui, Storage storage) {
+        assert userInput != null : "Input should not be null";
+        assert taskList != null : "TaskList should not be null";
+        assert ui != null : "Ui should not be null";
+        assert storage != null : "Storage should not be null";
+
         String[] splitInput = userInput.split(" ", 2);
         String command = splitInput[0].toLowerCase();
 
