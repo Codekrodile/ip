@@ -93,8 +93,16 @@ public class Parser {
      * Handles marking and unmarking tasks.
      */
     private static String handleMarkUnmark(String command, String[] splitInput, TaskList taskList, Ui ui) {
-        int index;
+        // check validitiy of index
+        int index = parseTaskIndex(splitInput[1], taskList, ui);
+        if (index == -1) {
+            return ui.printErrorMessage("Invalid format! Use 'mark <task_index>' or 'unmark <task_index>'");
+        }
+        if (index == -2) {
+            return ui.printErrorMessage("Invalid task index, pls enter a index from 1 to " + taskList.getSize());
+        }
 
+        /*
         // check 2nd argument
         try {
             index = Integer.parseInt(splitInput[1]) - 1;
@@ -106,6 +114,7 @@ public class Parser {
         if (index < 0 || index > taskList.getSize() - 1) {
             return ui.printErrorMessage("invalid task index, pls enter a index from 1 to " + taskList.getSize());
         }
+        */
 
         // mark
         if (command.equals("mark")) {
@@ -122,8 +131,16 @@ public class Parser {
      * Handles deleting tasks.
      */
     private static String handleDelete(String[] splitInput, TaskList taskList, Ui ui) {
-        int index;
+        // check validitiy of index
+        int index = parseTaskIndex(splitInput[1], taskList, ui);
+        if (index == -1) {
+            return ui.printErrorMessage("Invalid format! Use 'delete <task_index>'");
+        }
+        if (index == -2) {
+            return ui.printErrorMessage("Invalid task index, pls enter a index from 1 to " + taskList.getSize());
+        }
 
+        /*
         // check 2nd argument
         try {
             index = Integer.parseInt(splitInput[1]) - 1;
@@ -135,6 +152,7 @@ public class Parser {
         if (index < 0 || index > taskList.getSize() - 1) {
             return ui.printErrorMessage("Index out of bound: pls enter a index from 1 to " + taskList.getSize());
         }
+        */
 
         // delete
         Task deletedTask = taskList.deleteTask(index);
@@ -298,5 +316,25 @@ public class Parser {
             ? new Event(parts[2], fromDate, toDate).markDone()
             : new Event(parts[2], fromDate, toDate);
     }
+
+    /**
+     * Helper function to check for index out of bound error
+     */
+    private static int parseTaskIndex(String input, TaskList taskList, Ui ui) {
+        try {
+            int index = Integer.parseInt(input) - 1;
+
+            // if index out of bound
+            if (index < 0 || index >= taskList.getSize()) {
+                return -1;
+            }
+
+            return index;
+        } catch (NumberFormatException e) {
+            // index not integer
+            return -2;
+        }
+    }
+
 }
 
